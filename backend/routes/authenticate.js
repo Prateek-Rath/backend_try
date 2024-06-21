@@ -1,32 +1,37 @@
 var express = require('express');
 var router = express.Router();
-const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
-const mongoose = require('mongoose')
-const connect = require('../db/connect')
+const path = require('path')
 
-const url = ''
-connect(url);
 
+router.use('/public', express.static(path.join(__dirname+'/public')));
+
+// router.use(express.static(path.join(__dirname, 'public')));
 router.use(express.json())
-router.use(session({
-  store: new RedisStore({
-    url: config.redisStore.url
-  }),
-  secret: config.redisStore.secret,
-  resave: false,
-  saveUninitialized: false
-}))
-router.use(passport.initialize())
-router.use(passport.session())
+router.use(express.urlencoded({ extended: false }));
+
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index');
+router.route('/').get(function(req, res, next) {
+  // res.render('index');
+  res.send('home!!')
 });
 
-router.get('/login',function(req,res,next){
-  res.render('login');
+router.route('/login').get(function(req,res,next){
+  try{
+    console.log('we were hit!!');
+    res.render('../public/login');
+    next()
+  }
+  catch (e){
+    console.log('error is', e);
+  }
+  
+})
+
+router.get('/register',function(req,res,next){
+    console.log('we were hit!!')
+    res.render('../public/register');
+    next()
 })
 
 router.post('/login', function(req, res, next){

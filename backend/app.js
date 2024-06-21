@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var authenticateRouter = require('./routes/authenticate');
-var eventssRouter = require('./routes/events');
+var eventsRouter = require('./routes/events');
 
 var app = express();
 
@@ -37,5 +37,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(4000, (req, res)=>{
+  console.log('listening on port 4000')
+})
 
 module.exports = app;
